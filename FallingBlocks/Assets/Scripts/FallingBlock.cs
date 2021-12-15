@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour
 {
-    
-    public float speed = 7;
+
+    public Vector2 SpeedMinMax;
+
+    private float speed;
     // Start is called before the first frame update
     void Start()
     {
-        
+        speed = Mathf.Lerp( SpeedMinMax.x, SpeedMinMax.y, Difficulty.getDifficultyPercentage());
     }
 
     // Update is called once per frame

@@ -6,15 +6,18 @@ public class Player : MonoBehaviour
 {
 
     public float speed = 7;
+    public float PlayerMaxHealth;
+    public HealthBar HealthBar;
 
 
     private float WallLimit;
     private float velocity;
     private float halfPlayer;
-    private int PlayerHealth = 5;
+    private float PlayerHealth;
     // Start is called before the first frame update
     void Start()
     {
+        PlayerHealth = PlayerMaxHealth;
         halfPlayer = transform.localScale.x / 2f;
         WallLimit = Camera.main.aspect * Camera.main.orthographicSize - halfPlayer;
     }
@@ -39,8 +42,14 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        PlayerHealth -= 1;
+
         Destroy(collision.gameObject);
-        if (--PlayerHealth == 0)
-            Destroy(this); 
+        if (PlayerHealth == 0)
+            Destroy(this);
+
+        float ratio = PlayerHealth / PlayerMaxHealth;
+        Debug.Log(ratio);
+        HealthBar.setSliderValue(ratio);
     }
 }

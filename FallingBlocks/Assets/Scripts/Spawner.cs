@@ -5,12 +5,11 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject fallingBlockPrefab;
-    public float secondsBetweenSpawns = 1;
+    public Vector2 secondsBetweenSpawnsMinMax;
     public Vector2 spawnSizeMinMax;
     public float spawnAngleMax;
 
-    float nextSpawnTime;
-
+    private float nextSpawnTime;
     Vector2 screenHalfSizeWorldUnits;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +24,6 @@ public class Spawner : MonoBehaviour
         if (Time.time < nextSpawnTime) { 
             return;
         }
-        // Debug.Log(Time.time);
         // size of block
         float spawnSize = Random.Range(spawnSizeMinMax.x, spawnSizeMinMax.y);
         // position of block
@@ -33,9 +31,11 @@ public class Spawner : MonoBehaviour
         // direction of block (z-axis)
         float spawnAngle = Random.Range(-spawnAngleMax, spawnAngleMax);
 
-
         GameObject fallingBlock = Instantiate(fallingBlockPrefab, spawnPosition, Quaternion.Euler (Vector3.forward * spawnAngle));
         fallingBlock.transform.localScale = Vector2.one * spawnSize;
+
+        // Apply difficulty 
+        float secondsBetweenSpawns = Mathf.Lerp(secondsBetweenSpawnsMinMax.y, secondsBetweenSpawnsMinMax.x, Difficulty.getDifficultyPercentage());
 
         // increment timer
         nextSpawnTime = Time.time + secondsBetweenSpawns;
