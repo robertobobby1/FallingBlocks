@@ -43,8 +43,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerHealth -= 1;
-
+        PlayerHealth--;
         Destroy(collision.gameObject);
         if (PlayerHealth == 0)
             Destroy(this);

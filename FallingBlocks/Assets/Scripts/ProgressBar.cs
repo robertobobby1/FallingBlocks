@@ -7,6 +7,7 @@ public class ProgressBar : MonoBehaviour
 {
     private float MaxCounter;
     private float counter;
+    private bool isReverse;
 
     public Slider slider;
 
@@ -16,23 +17,33 @@ public class ProgressBar : MonoBehaviour
         slider.value = value;
     }
 
-    // set max counter for slider
-    public void setMaxCounter(float MaxCounter)
+    public void setReverseProgressBar(bool reversable)
     {
-        this.MaxCounter = MaxCounter;
+        isReverse = reversable;
+    }
+
+    // set max counter for slider
+    public void setMaxCounter(float MaxCounter_)
+    {
+        MaxCounter = MaxCounter_;
+        counter = MaxCounter;
     }
 
     // Reduces counter and updates slider
     public void reduceAndUpdateCounter(float reduceBy)
     {
-        this.counter = counter - reduceBy;
-        this.getAndSetSliderValue();
+        counter = counter - reduceBy;
+        getAndSetSliderValue();
     }
 
     // Gets percentage and sets the slider
     private void getAndSetSliderValue()
     {
-        this.setSliderValue(this.counter / this.MaxCounter);
+        float sliderValue = counter / MaxCounter;
+        if (isReverse)
+            sliderValue = 1 - sliderValue; 
+
+        this.setSliderValue(sliderValue);
     }
 
 }
