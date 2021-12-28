@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public float speed = 7;
     public float PlayerMaxHealth;
     public ProgressBar HealthBar;
+    public GameObject bullet;
 
     private float WallLimit;
     private float velocity;
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour
         // Left Wall limit
         if (transform.position.x < -WallLimit)
             transform.position = new Vector2(-WallLimit, transform.position.y);
+
+        Instantiate(bullet, transform.position, Quaternion.Euler(Vector3.forward));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
